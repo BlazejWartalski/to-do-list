@@ -1,3 +1,4 @@
+
 function createTask(taskTitle, taskDescription, taskDueDate, taskPriority, projectName) {
     return {
         taskTitle : taskTitle,

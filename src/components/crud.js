@@ -1,3 +1,5 @@
+import { getProjects, createProject  } from "./script/projects.js"
+
 function createPage() {
     const createNewTask = document.createElement("div")
     createNewTask.classList.add("createPage","hidden")
@@ -12,12 +14,14 @@ function createPage() {
             var projectName = document.createElement("input");
             projectName.setAttribute("type","text");
             projectName.setAttribute("name","projectName");
+            projectName.setAttribute("id","projectName");
             projectName.setAttribute("placeholder","Please enter the project name");
             form.appendChild(projectName)
 
             var projectPriority = document.createElement("input");
             projectPriority.setAttribute("type","text");
             projectPriority.setAttribute("name","projectPriority");
+            projectPriority.setAttribute("id","projectPriority");
             projectPriority.setAttribute("placeholder","Please enter the project priority");
             form.appendChild(projectPriority)
 
@@ -26,12 +30,15 @@ function createPage() {
             form.appendChild(submitbtn);
 
             submitbtn.addEventListener("click", () => {
+                var name = document.getElementById("projectName").value;
+                var priority = document.getElementById("projectPriority").value;
+                const newProject = createProject(name, priority);
+                var projectList = getProjects();
+                projectList.push(newProject);
+                console.log(projectList);
+                localStorage.setItem("ProjectList",JSON.stringify(projectList));
                 createNewTask.classList.add("hidden");
             })
-}
-
-function submitNew() {
-
 }
 
 export default createPage;

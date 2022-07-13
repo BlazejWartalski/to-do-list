@@ -1,4 +1,4 @@
-import projectList from './script/projects.js'
+import { getProjects, createProject } from './script/projects.js'
 import tasksList from './script/tasks.js'
 import newProjectBtn from './script/buttons.js';
 
@@ -14,12 +14,21 @@ function assignTasksToProjects() {
 }
 
 function createProjectBox() {
+    var projectList = getProjects();
+    console.log(typeof projectList);
     projectList.forEach(renderProjectList);
 }
 
 function tasksToProjects(task) {
     // console.log(task);
-    console.log(projectList);
+    var projectList = getProjects();
+
+    console.log(projectList)
+    if (projectList == null || projectList == undefined){
+        console.log("pusto")
+        createProject("All projects","Medium priority")
+        console.log(projectList);
+    }
     for (let i = 0; i < projectList.length; i++) {
         if (projectList[i].projectName == task.projectName) {
             projectList[i].taskList.push(task)
