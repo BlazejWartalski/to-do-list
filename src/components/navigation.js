@@ -1,6 +1,8 @@
 import { getProjects, createProject } from './script/projects.js'
 import tasksList from './script/tasks.js'
-import newProjectBtn from './script/buttons.js';
+import { createPage, initializeButtons } from './crud.js';
+
+var projectList = getProjects();
 
 function createSideNav() {
     const sideNav = document.createElement('div');
@@ -14,50 +16,43 @@ function assignTasksToProjects() {
 }
 
 function createProjectBox() {
-    var projectList = getProjects();
-    console.log(typeof projectList);
+    console.log(projectList);
     projectList.forEach(renderProjectList);
 }
 
 function tasksToProjects(task) {
-    // console.log(task);
-    var projectList = getProjects();
+    console.log("liczymy")
+    console.log(projectList);
+    console.log(projectList.length);
 
-    console.log(projectList)
-    if (projectList == null || projectList == undefined){
-        console.log("pusto")
-        createProject("All projects","Medium priority")
-        console.log(projectList);
-    }
     for (let i = 0; i < projectList.length; i++) {
         if (projectList[i].projectName == task.projectName) {
             projectList[i].taskList.push(task)
-            // console.log(projectList[i].taskList)
+            console.log(projectList[i].taskList)
         }
     }
 
 }
 
-function createButton(btnName, btnText, master, id) {
-    console.log(btnName, btnText, master)
+function createButton(btnName, btnText, master, classname) {
     var btnName = document.createElement("button");
     btnName.innerHTML = (btnText);
     master.appendChild(btnName);
-    console.log(id);
-    if (id != undefined) {
-        btnName.setAttribute("id",id)
+    if (classname != undefined) {
+        btnName.setAttribute("class",classname)
     }
 }
 
 function renderProjectList(i) {
-    console.log(i.projectName)
     var ul = document.createElement("ul");
+    console.log(i)
     ul.setAttribute('class',i.projectName)
     const box = document.getElementsByClassName("NavigationBox");
     box[0].appendChild(ul);
     ul.innerHTML=i.projectName + " " + i.projectPriority + " priority";
-    createButton("deleteBtn","delete",ul)
+    createButton("deleteBtn","delete",ul, "deleteProject")
     if (i.taskList.length > 0) {
+        console.log("hewwo")
         console.log(i.taskList)
         i.taskList.forEach(item=>buildTaskList(item))
     }
@@ -85,6 +80,6 @@ function initializeSideNav() {
     assignTasksToProjects();
     createProjectBox();
     createSettingButtons();
-    newProjectBtn();
+    initializeButtons();
 }
 export default initializeSideNav ;

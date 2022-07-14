@@ -10,8 +10,8 @@ function createTask(taskTitle, taskDescription, taskDueDate, taskPriority, proje
 }
 
 let tasksList = [
-    {taskTitle : "Task1", taskDescription: "owoTask123", taskDueDate : "20/09/2022", taskPriority: "High", projectName: "First Project"},
-    {taskTitle : "Task1", taskDescription: "owoTask123", taskDueDate : "20/09/2022", taskPriority: "High", projectName: "First Project"},
+    {taskTitle : "Task1", taskDescription: "owoTask123", taskDueDate : "20/09/2022", taskPriority: "High", projectName: "All projects"},
+    {taskTitle : "Task1", taskDescription: "owoTask123", taskDueDate : "20/09/2022", taskPriority: "High", projectName: "All projects"},
     {taskTitle : "Task1", taskDescription: "owoTask123", taskDueDate : "20/09/2022", taskPriority: "High", projectName: "Second Project"},
     {taskTitle : "Task1", taskDescription: "owoTask123", taskDueDate : "20/09/2022", taskPriority: "High", projectName: "Third Project"},
     {taskTitle : "Task1", taskDescription: "owoTask123", taskDueDate : "20/09/2022", taskPriority: "High", projectName: "Fourth Project"},

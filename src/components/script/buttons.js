@@ -1,5 +1,5 @@
 function newProjectBtn() {
-    const newProjectBtn = document.getElementById("NewProjectBtn")
+    const newProjectBtn = document.getElementsByClassName(".NewProjectBtn")
     newProjectBtn.addEventListener("click", newProject)
 }
 
@@ -9,4 +9,18 @@ function newProject() {
     createPage[0].classList.remove("hidden");
 }
 
-export default newProjectBtn;
+function deleteProjectBtn(i) {
+    const dltbtn = document.getElementById("deleteProject")
+    dltbtn.addEventListener("click", deleteProject)
+}
+
+function deleteProject() {
+    prompt("Deleting this project will also remove tasks assigned to this project. Are you happy to proceed?")
+    
+}
+
+function initializeButtons() {
+    newProjectBtn()
+    deleteProjectBtn()
+}
+export default initializeButtons;
