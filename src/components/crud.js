@@ -106,7 +106,6 @@ function createTaskPage() {
                 option.text = projectList[i].projectName;
                 projectName.appendChild(option);
             }
-            console.log(projectName[0]);
             // projectName.setAttribute("type","text");
             // projectName.setAttribute("name","projectName");
             projectName.setAttribute("id","selectProjectName");
