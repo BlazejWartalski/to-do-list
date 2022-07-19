@@ -1,8 +1,10 @@
 import { getProjects, createProject } from './script/projects.js'
-import tasksList from './script/tasks.js'
-import { createPage, initializeButtons } from './crud.js';
+import { getTasks , createTask } from './script/tasks.js'
+import { createPage, initializeButtons, initializeCheckbox } from './crud.js';
 
 var projectList = getProjects();
+
+var tasksList = getTasks();
 
 function createSideNav() {
     const sideNav = document.createElement('div');
@@ -16,19 +18,14 @@ function assignTasksToProjects() {
 }
 
 function createProjectBox() {
-    console.log(projectList);
     projectList.forEach(renderProjectList);
 }
 
 function tasksToProjects(task) {
-    console.log("liczymy")
-    console.log(projectList);
-    console.log(projectList.length);
 
     for (let i = 0; i < projectList.length; i++) {
         if (projectList[i].projectName == task.projectName) {
             projectList[i].taskList.push(task)
-            console.log(projectList[i].taskList)
         }
     }
 
@@ -45,27 +42,31 @@ function createButton(btnName, btnText, master, classname) {
 
 function renderProjectList(i) {
     var ul = document.createElement("ul");
-    console.log(i)
     ul.setAttribute('class',i.projectName)
     const box = document.getElementsByClassName("NavigationBox");
     box[0].appendChild(ul);
-    ul.innerHTML=i.projectName + " " + i.projectPriority + " priority";
+    ul.innerHTML=i.projectName;
     createButton("deleteBtn","delete",ul, "deleteProject")
     if (i.taskList.length > 0) {
-        console.log("hewwo")
-        console.log(i.taskList)
         i.taskList.forEach(item=>buildTaskList(item))
     }
 }
 
 function buildTaskList(item) {
     var li = document.createElement("LI");
-    // li.setAttribute('class',task)
+    li.setAttribute('class',item.taskTitle)
     const ul = document.getElementsByClassName(item.projectName);
-    li.innerHTML=item.taskTitle + " " + item.taskPriority + " priority";
-    createButton("deleteBtn","delete",li);
-    createButton("editBtn","edit",li);
-    createButton("viewBtn","view",li);
+    var text = document.createElement("p");
+    text.classList.add("taskName");
+    text.innerText = item.taskTitle + " " + item.taskPriority + " priority";
+    li.appendChild(text);
+    var checkbox = document.createElement("INPUT");
+    checkbox.setAttribute("type","checkbox");
+    checkbox.setAttribute("class","checkbox");
+    li.appendChild(checkbox);
+    createButton("deleteBtn","delete",li, "deleteTask");
+    createButton("editBtn","edit",li, "editTask");
+    createButton("viewBtn","view",li, "viewTask");
     ul[0].appendChild(li);
 }
 
@@ -81,5 +82,6 @@ function initializeSideNav() {
     createProjectBox();
     createSettingButtons();
     initializeButtons();
+    initializeCheckbox();
 }
 export default initializeSideNav ;
