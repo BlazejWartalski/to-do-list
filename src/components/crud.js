@@ -122,13 +122,97 @@ function createTaskPage() {
                 var dueDate = document.getElementById("taskDueDate").value
                 var priority = document.getElementById("taskPriority").value
                 var select = document.getElementById("selectProjectName").value;
-                console.log(select.value)
                 const newProject = createTask(title, description, dueDate, priority, select);
                 taskList.push(newProject)
-                console.log(newProject)
                 localStorage.setItem("TaskList",JSON.stringify(taskList));
                 window.location.reload();
                 createNewTask.classList.add("hidden");
+            })
+}
+
+function createEditPage(selectedTask) {
+    var editTask = document.createElement("div")
+    editTask.setAttribute("id","editPage")
+    document.body.appendChild(editTask);
+        const formContainer = document.createElement("div")
+        formContainer.classList.add("formContainer");
+        editTask.appendChild(formContainer);
+            const form = document.createElement("div")
+
+            formContainer.appendChild(form)
+
+            var closeFormBtn = document.createElement("button");
+            closeFormBtn.setAttribute("id","closeWindowBtn");
+            closeFormBtn.innerHTML="Exit"
+            formContainer.appendChild(closeFormBtn)
+            closeFormBtn.addEventListener("click", () => {
+                editTask.classList.add("hidden");
+            })
+            var taskName = document.createElement("input");
+            taskName.setAttribute("type","text");
+            taskName.setAttribute("name","taskName");
+            taskName.setAttribute("id","taskName");
+            taskName.value = selectedTask.taskTitle;
+            form.appendChild(taskName)
+
+            var taskPriority = document.createElement("select");
+            const priorityOptions = ["high","medium","low"];
+            for (var i = 0; i < priorityOptions.length; i++) {
+                var option = document.createElement("option");
+                option.setAttribute("value",priorityOptions[i]);
+                option.text = priorityOptions[i];
+                taskPriority.appendChild(option)
+            }
+            taskPriority.setAttribute("type","text");
+            taskPriority.setAttribute("name","taskPriority");
+            taskPriority.setAttribute("id","taskPriority");
+            taskPriority.value = selectedTask.taskPriority;
+            form.appendChild(taskPriority)
+
+            var editTaskDescription = document.createElement("input");
+            editTaskDescription.setAttribute("type","text");
+            editTaskDescription.setAttribute("name","taskDescription");
+            editTaskDescription.setAttribute("id","taskDescription");
+            editTaskDescription.value = selectedTask.taskDescription;
+            form.appendChild(editTaskDescription)
+
+            var taskDueDate = document.createElement("input");
+            taskDueDate.setAttribute("type","date");
+            taskDueDate.setAttribute("name","taskDueDate");
+            taskDueDate.setAttribute("id","taskDueDate");
+            taskDueDate.value = selectedTask.taskDueDate;
+            form.appendChild(taskDueDate)
+
+            var projectName = document.createElement("select");
+
+            for (var i = 0; i < projectList.length; i++) {
+                var option = document.createElement("option");
+                option.setAttribute("value",projectList[i].projectName);
+                option.text = projectList[i].projectName;
+                projectName.appendChild(option);
+            }
+
+            projectName.setAttribute("id","selectProjectName");
+            projectName.value = selectedTask.projectName;
+            form.appendChild(projectName)
+console.log(taskList);
+            var submitbtn = document.createElement("button");
+            submitbtn.setAttribute("type","submit");
+            form.appendChild(submitbtn);
+            console.log(taskList)
+            console.log(selectedTask)
+            var taskListIndex = taskList.findIndex((task => task.taskTitle == selectedTask.taskTitle))
+            console.log(taskListIndex)
+            submitbtn.addEventListener("click", () => {
+                var title = taskName.value;
+                var description = editTaskDescription.value;
+                var dueDate = taskDueDate.value
+                var priority = taskPriority.value
+                var select = projectName.value;
+                Object.assign(taskList[taskListIndex] , {taskTitle: title, taskDescription: description, taskDueDate: dueDate, taskPriority: priority, projectName: select})
+                localStorage.setItem("TaskList",JSON.stringify(taskList));
+                window.location.reload();
+                editTask.classList.add("hidden");
             })
 }
 
@@ -185,7 +269,6 @@ function deleteTaskBtn() {
 function deleteTask() {
     prompt("Do you wish to permanently remove this task?")
     const taskForDeletion = this.parentNode.attributes[0].nodeValue;
-    console.log(taskForDeletion , taskList)
     taskList.forEach(x => {
         if (x.taskTitle == taskForDeletion) {
             taskList.splice(taskList.indexOf(x),1);
@@ -193,6 +276,64 @@ function deleteTask() {
             window.location.reload();
         }
     })
+}
+
+function editButton() {
+    const editBtn = document.querySelectorAll(".editTask");
+    editBtn.forEach(x => x.addEventListener("click",editTask))
+}
+
+function editTask() {
+    var fetchTask = this.parentNode.attributes[0].nodeValue;
+    for (var i = 0; i < taskList.length; i++) {
+        if (taskList[i].taskTitle == fetchTask) {
+            var selectedTask = taskList[i]
+        }
+    }
+    createEditPage(selectedTask)
+}
+
+
+
+function viewButton() {
+    const viewBtn = document.querySelectorAll(".viewTask");
+    viewBtn.forEach(x => x.addEventListener("click",viewTask))
+}
+
+function viewTask() {
+    const viewPage = document.getElementById("DisplayBox");
+    var fetchTask = this.parentNode.attributes[0].nodeValue;
+    for (var i = 0; i < taskList.length; i++) {
+        if (taskList[i].taskTitle == fetchTask) {
+            var selectedTask = taskList[i]
+        }
+    }
+    viewPage.innerHTML = "";
+    ///
+    // const box = document.getElementById("dailyDisplay");
+    const taskTile = document.createElement("div");
+    const titleElement = document.createElement("p");
+    titleElement.innerHTML = selectedTask.taskTitle;
+    const descriptionElement = document.createElement("p");
+    descriptionElement.innerHTML = selectedTask.taskDescription;
+    const dueDateElement = document.createElement("p");
+    dueDateElement.innerHTML = selectedTask.taskDueDate;
+    const projectElement = document.createElement("p");
+    projectElement.innerHTML = selectedTask.projectName;
+    const priorityElement = document.createElement("p");
+    priorityElement.innerHTML = selectedTask.taskPriority;
+    taskTile.classList.add("class", selectedTask.taskPriority)
+
+    taskTile.appendChild(titleElement)
+    taskTile.appendChild(descriptionElement)
+    taskTile.appendChild(dueDateElement)
+    taskTile.appendChild(projectElement)
+    taskTile.appendChild(priorityElement)
+    viewPage.appendChild(taskTile)
+    ///
+    
+    const displayTask = document.createElement("div");
+    viewPage.appendChild(displayTask);
 }
 
 function initializeCheckbox() {
@@ -203,11 +344,9 @@ function initializeCheckbox() {
 }
 
 function changestatus() {
-    console.log(taskList)
     var changeTaskStatus = this.parentNode.attributes[0].nodeValue;
     taskList.forEach(x => {
         if (x.taskTitle == changeTaskStatus) {
-            console.log(x.status)
             if (x.status == "notcompleted") {
                 x.status = "completed"
                 this.previousSibling.classList.add("checked")
@@ -223,6 +362,8 @@ function initializeButtons() {
     deleteProjectBtn()
     newTaskBtn()
     deleteTaskBtn()
+    editButton()
+    viewButton()
 }
 
 export { createPage, createTaskPage, initializeButtons, initializeCheckbox };
