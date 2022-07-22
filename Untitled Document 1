@@ -1,0 +1,22 @@
+PLAN:
+
+1. Page elements
+2. Basic CSSrsonally my to-do-list has to be the top 10 worst coded things on this planet but definitely try that. Also that difficulty feeling is normal, it really does feel like a unsurmountabl
+3. Function to create new tasks
+4. Function to store tasks in local memory
+5. Create,Read,Update,Delete
+6. Enhanced CSS
+
+
+What to do :
+Logic: 		Function to create new task + project, to edit, to remove, to add status, to change date etc, Night Mode/Day Mode
+
+Display: 	add settings to sort and view tasks by date, and my project name.
+			Option to add, change status, edit, remove tasks.
+
+Navigation to the left:		Alternate between expanding project and hiding project on click.
+
+Top bar, bottom bar - easy shit dont even worry about it not much work to be done there
+
+store it all locally
+display all of it and generate new dom element for each of these elements.
